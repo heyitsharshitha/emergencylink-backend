@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: emergencylink-backend
+    runtime: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: SEED_DEMO_DATA
+        value: "true"
+      - key: JWT_SECRET
+        generateValue: true

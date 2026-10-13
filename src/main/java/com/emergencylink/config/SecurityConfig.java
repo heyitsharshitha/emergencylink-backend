@@ -63,7 +63,11 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource(AppProperties props) {
         CorsConfiguration cfg = new CorsConfiguration();
-        cfg.setAllowedOrigins(props.cors().allowedOrigins());
+        if (props.cors().allowedOrigins() != null && !props.cors().allowedOrigins().isEmpty()) {
+            cfg.setAllowedOriginPatterns(props.cors().allowedOrigins());
+        } else {
+            cfg.setAllowedOriginPatterns(List.of("*"));
+        }
         cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
         cfg.setExposedHeaders(List.of("Content-Disposition"));
