@@ -1,0 +1,75 @@
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    include-stacktrace: never
+    include-message: never
+
+spring:
+  application:
+    name: emergencylink-backend
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/emergencylink?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:Crms@2026!IP}
+  flyway:
+    enabled: ${FLYWAY_ENABLED:true}
+    baseline-on-migrate: true
+    baseline-version: 1
+    locations: classpath:db/migration
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: ${DDL_AUTO:update}
+    properties:
+      hibernate:
+        jdbc.time_zone: UTC
+        format_sql: false
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+  cache:
+    type: simple
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:change-this-development-secret-to-at-least-32-characters-long}
+    expiration-minutes: ${JWT_EXPIRATION_MINUTES:480}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173}
+  resources:
+    stale-after-minutes: ${RESOURCE_STALE_MINUTES:120}
+  thresholds:
+    referral-wait-minutes: ${REFERRAL_WAIT_THRESHOLD_MINUTES:30}
+  rate-limit:
+    auth-per-minute: ${AUTH_RATE_LIMIT_PER_MINUTE:10}
+  seed:
+    enabled: ${SEED_DEMO_DATA:true}
+  llm:
+    api-key: ${LLM_API_KEY:}
+    base-url: ${LLM_BASE_URL:https://api.anthropic.com}
+    model: ${LLM_MODEL:claude-sonnet-4-6}
+    max-tokens: ${LLM_MAX_TOKENS:700}
+    history-messages: ${LLM_HISTORY_MESSAGES:6}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+logging:
+  level:
+    root: INFO
+    com.emergencylink: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level [%X{user:-anon}] %logger{28} - %msg%n"

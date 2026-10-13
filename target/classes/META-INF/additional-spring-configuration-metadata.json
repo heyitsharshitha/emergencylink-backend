@@ -1,0 +1,16 @@
+{
+  "properties": [
+    {
+      "name": "app.rate-limit.auth-per-minute",
+      "type": "java.lang.Integer",
+      "description": "Maximum sign-in or registration attempts per client address per minute (0 disables the limit).",
+      "defaultValue": 10
+    },
+    {
+      "name": "app.thresholds.referral-wait-minutes",
+      "type": "java.lang.Long",
+      "description": "Minutes a dispatched referral may wait without an update before it is flagged as overdue. An operational setting, not a clinical rule.",
+      "defaultValue": 30
+    }
+  ]
+}
